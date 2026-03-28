@@ -9,41 +9,39 @@ using System.Threading.Tasks;
 
 
 
-// Client.Server.Disconnect
-// Server.Clients[1].Disconnect()
+// NOTE: Example usage: client.Server.Disconnect()
+// NOTE: Example usage: server.Clients[1].Disconnect()
 
-// disconnect tespiti keepalive la olmalı
+// TODO: Implement disconnect detection using keepalive.
 
-// Try catch, exception handling
+// TODO: Add proper try/catch and exception handling.
 
+// TODO: Add benchmarks comparing this implementation with the previous one (CPU, RAM, and timing).
 
-// tcp old ile karşılaştırma (aynı projede) (cpu, ram resaources usage and time comparasion)
+// TODO: Fix cross-thread issues; decide which thread should trigger events.
 
-// çapraz iş parçacığı soununu düzelt, eventler hangi threadden triggerlanmalı?
+// TODO: Add more events.
+// TODO: Create EventArgs classes for all events.
 
-// daha fazla eventler ekle
-// eventlere event args oluştur
+// TODO: Determine and configure an appropriate buffer size.
 
-// buffer size kaç olmalı, nasıl olmalı düzenle
+// TODO: Add XML summary comments (e.g., document that BeginTryUntilConnect interval is in milliseconds).
 
-// summaryleri ekle (örnek begintryuntilconnectsde interval in milliseconds gibi)
+// TODO: Throw or handle an error in SendMessage when the host is not connected.
 
-// sendmessage error if not connected
+// TODO: Consider moving message header properties to the TcpMessage class.
 
-// bu message header propları vs. TcpMessage classına taşınmalı mı, taşınmalı sanırım
+// TODO: Consider adding a non-generic helper for MessageReceived (e.g., via an OnMessageReceived override).
 
-// non-generic helperı messagereceived için eklemelimiyim? (onmessagereceivedı fln mı overridelıycam?)
+// TODO: StartListeningClient could live here, made async with callbacks.
 
-// StartListeningClient burda olabilir, async olur callbackleri olur vs..
+// TODO: Add error handling (e.g., throw ArgumentNullException.ThrowIfNull in ConfigureEncryption if options is null).
 
-// hata yönetimi (örn: ConfigureEncryption gibi methodlara null yollanırsa ArgumentNullException.ThrowIfNull)
+// TODO: Add a stream-based SendMessage overload for transferring large data (e.g., files).
 
-// stream alan bi send message benzeri birşey olabilir, mesela büyük dosyalar vs. için
+// TODO: StartListeningServer should accept a disconnection callback and manage its own thread internally.
 
-// startlisteniningserver vs. için callback paramı alsın disconnectte çalıştırsın, yeni threadide method içi oluşturur
-
-
-//buffersize araştır
+// TODO: Research optimal buffer size.
 
 
 namespace Bekos.Tcp;

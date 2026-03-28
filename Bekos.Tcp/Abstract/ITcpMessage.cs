@@ -1,6 +1,6 @@
 ﻿
 
-// jsonserializer ile default serialize ve deserialize methodları tanımlamalımıyım? interfacelerde bodyli method tanımlamak mantıklımı
+// TODO: Consider adding default Serialize/Deserialize implementations using JsonSerializer as interface default methods — evaluate whether default interface method bodies are appropriate here.
 
 
 namespace Bekos.Tcp;

@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 
 
-// client count maxı geçerse, startacceptingclient duruyo, ama client count düşerse, tekrar başlamıyo onu düzelt
-// sendmessagetoall yapıldığında hepsi için mesaj serialize falan olucak onu düzelt, ayrıca host dizisi/listesi alan bi versiyonunu da oluştur o da onlara göndersin
+// TODO: If the client count exceeds the maximum, StartAcceptingClients stops but never restarts when the count drops — fix this.
+// TODO: SendMessageToAll serializes the message for each client individually; optimize to serialize once. Also add an overload that accepts a list of target connections.
 
-// Make Clients Prop Public
+// TODO: Make the Clients property public.
 
 
 namespace Bekos.Tcp;

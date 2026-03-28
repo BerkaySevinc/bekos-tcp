@@ -4,16 +4,16 @@ using System.Net;
 using System.Net.Sockets;
 
 
-// Connected/Disconnected events argı server propu paslamalı bence
+// TODO: Connected/Disconnected event args should expose a Server property.
 
-// attemptedconnecting die bi evente gerek varmı
+// TODO: Consider adding an AttemptingToConnect event.
 
-// EndTryUntilConnect te = null; etmezsem hatalar çıkıyor ama dispose edilmiş birşeyi null setlemek ne kadar mantıklı?
+// FIXME: Setting tryUntilConnectTimer to null after Dispose is a workaround; reconsider lifecycle management.
 
-// Server Prop
+// TODO: Add a Server property.
 
-// IsConnected
-// zaten connected ise TryConnect ve BeginTryUntilConnect gibi methodların çalışmaması lazım
+// TODO: Add an IsConnected property.
+// TODO: TryConnect and BeginTryUntilConnect should be no-ops when already connected.
 
 
 namespace Bekos.Tcp;

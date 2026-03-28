@@ -10,9 +10,9 @@ using System.Text.Json;
 using System.Threading.Tasks;
 
 
-// IsLost propu olmalı şuan IsDisconnected olan
-// Dispose private olmalı .Disconnect() çağırıldığında IsLost true olmalı ve sonra Dispose Çağırılmalı
-// CheckIsConnected public mi olmalı
+// TODO: Rename IsDisconnected to IsLost.
+// TODO: Make Dispose private; when Disconnect() is called, set IsLost to true, then call Dispose.
+// TODO: Determine whether CheckIsConnected should be public.
 
 namespace Bekos.Tcp;
 

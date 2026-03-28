@@ -1,13 +1,12 @@
 ﻿using System.Text.Json;
 
 
-// jsonserializer yerine kendine memorystreamle vs. serialize et
+// TODO: Replace JsonSerializer with a custom MemoryStream-based serializer.
 
-// propların setlerini kaldırırsak deserializer çalışmıyor, jsonconverter falan tanımlayıp çözülebilir bu sorun onu araştır, sonra propları get only yap
-// object olursa çalışmıyo o yüzden data
+// TODO: Removing property setters breaks deserialization — investigate using a custom JsonConverter to resolve this, then make properties get-only.
+// NOTE: Data must remain typed as byte[] (not object) for deserialization to work correctly.
 
-
-// serialize ve derserializeı en verimli haline getir, ama bu sefer bundan derive edilen classların da serialize ve deserializeı baştan yazması gerekir, bunun için bir attribute varmı? veya sealed iş görürmü ne işe yarar
+// TODO: Optimize Serialize/Deserialize performance; note that derived classes would need to re-implement them — research whether a custom attribute or sealing this class is the right approach.
 
 
 namespace Bekos.Tcp;
