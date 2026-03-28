@@ -29,7 +29,7 @@ namespace Tcp.Demo
                 e.Graphics.FillRectangle(bgBrush, e.Bounds);
 
                 var textRect = new Rectangle(e.Bounds.X + 10, e.Bounds.Y, e.Bounds.Width - 10, e.Bounds.Height);
-                TextRenderer.DrawText(e.Graphics, e.SubItem.Text, lv.Font, textRect, TextPrimary,
+                TextRenderer.DrawText(e.Graphics, e.SubItem?.Text, lv.Font, textRect, TextPrimary,
                     TextFormatFlags.VerticalCenter | TextFormatFlags.Left | TextFormatFlags.EndEllipsis);
             };
         }

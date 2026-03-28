@@ -261,7 +261,7 @@ public abstract class TcpHost<TTcpMessage> where TTcpMessage : class, ITcpMessag
         byte[] buffer = new byte[BufferSize];
 
         while (stream.DataAvailable)
-            stream.Read(buffer, 0, buffer.Length);
+            _ = stream.Read(buffer, 0, buffer.Length);
     }
 
     #endregion

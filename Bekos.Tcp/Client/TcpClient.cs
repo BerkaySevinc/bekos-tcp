@@ -188,8 +188,12 @@ public class TcpClient<TTcpMessage> : TcpHost<TTcpMessage> where TTcpMessage : c
 
     #region SendMessage
 
-    public void SendMessage(TTcpMessage message) =>
+    public void SendMessage(TTcpMessage message)
+    {
+        if (serverConnection is null) throw new InvalidOperationException("Not connected to a server.");
+
         SendMessageToHost(serverConnection, message);
+    }
 
     #endregion
 
