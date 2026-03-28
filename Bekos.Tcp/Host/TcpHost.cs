@@ -1,4 +1,4 @@
-﻿using Encryption;
+﻿using Bekos.Encryption;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;

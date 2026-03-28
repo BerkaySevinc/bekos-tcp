@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\libs\encryption\Encryption\Encryption.csproj" />
+    <ProjectReference Include="..\libs\encryption\Bekos.Encryption\Bekos.Encryption.csproj" />
   </ItemGroup>
 
 </Project>
