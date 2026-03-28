@@ -108,7 +108,7 @@ namespace Tcp.Demo
         {
             TcpEncryptionOptions options = new TcpEncryptionOptions
             {
-                Password = "test",
+                Password = "demo",
                 UseIV = true
             };
             client.ConfigureEncryption(options);

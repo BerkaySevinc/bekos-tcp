@@ -111,7 +111,7 @@ namespace Tcp.Demo
             lblConnectedCount.Text = "Connected: 0";
             TcpEncryptionOptions options = new TcpEncryptionOptions
             {
-                Password = "test",
+                Password = "demo",
                 UseIV = true,
             };
             server.ConfigureEncryption(options);
