@@ -1,4 +1,4 @@
-﻿using BekoS.Tcp.Encryption;
+﻿using Encryption;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -101,7 +101,7 @@ public abstract class TcpHost<TTcpMessage> where TTcpMessage : class, ITcpMessag
     #region Configure Encryptions
 
     // Point-to-Point Encryption (P2PE) Enabling for Message Content
-    private TcpContentEncryptor? tcpContentEncryptor;
+    private AesEncryption? tcpContentEncryptor;
     private bool _encryptMessageContent;
     public bool EncryptMessageContent
     {
@@ -111,17 +111,24 @@ public abstract class TcpHost<TTcpMessage> where TTcpMessage : class, ITcpMessag
             _encryptMessageContent = value;
 
             if (_encryptMessageContent)
-                tcpContentEncryptor = new TcpContentEncryptor(encryptionOptions);
+                tcpContentEncryptor = new AesEncryption(encryptionOptions);
             else
                 tcpContentEncryptor?.Dispose();
         }
     }
 
     // Encryption Configurations
-    private TcpEncryptionOptions encryptionOptions = new();
+    private AesEncryptionOptions encryptionOptions = new();
     public void ConfigureEncryption(TcpEncryptionOptions options)
     {
-        encryptionOptions = options;
+        encryptionOptions = new AesEncryptionOptions
+        {
+            UseIV = options.UseIV,
+            KeySize = options.KeySize,
+            Padding = options.Padding,
+            Password = options.Password,
+            PasswordDerivationSalt = options.PasswordDerivationSalt,
+        };
 
         tcpContentEncryptor?.ConfigureEncryption(encryptionOptions);
     }
@@ -161,8 +168,6 @@ public abstract class TcpHost<TTcpMessage> where TTcpMessage : class, ITcpMessag
                 }
             }
             catch { }
-
-            if (connection.IsDisconnectedIntentionally) return;
 
             connection.Disconnect();
             disconnectionCallback?.Invoke(connection);
@@ -223,6 +228,10 @@ public abstract class TcpHost<TTcpMessage> where TTcpMessage : class, ITcpMessag
             byte[] headerBytes = new byte[headerDataLength];
             int headerBytesRead = stream.Read(headerBytes, 0, headerBytes.Length);
 
+            // Treat EOF as disconnection
+            if (headerBytesRead is 0)
+                throw new EndOfStreamException();
+
             // Validate Header
             if (
                 headerBytesRead != headerBytes.Length
@@ -230,8 +239,7 @@ public abstract class TcpHost<TTcpMessage> where TTcpMessage : class, ITcpMessag
                 )
             {
                 // Reset Stream Input Buffer If Header Is Not Validated
-                if (headerBytesRead is not 0)
-                    ResetStreamInputBuffer(stream);
+                ResetStreamInputBuffer(stream);
 
                 dataLength = 0;
                 return false;
@@ -268,6 +276,8 @@ public abstract class TcpHost<TTcpMessage> where TTcpMessage : class, ITcpMessag
 
     protected void SendMessageToHost(Connection host, TTcpMessage message)
     {
+        if (host.IsDisconnected) return;
+
         // Get Network Stream
         NetworkStream networkStream = host.Stream;
 
@@ -292,23 +302,28 @@ public abstract class TcpHost<TTcpMessage> where TTcpMessage : class, ITcpMessag
         // Add Data To Message
         data.CopyTo(messageData, headerDataLength);
 
-        // If Message Data Shorter Than Buffer Size Write Data Directly
-        if (messageDataLength < BufferSize) networkStream.Write(messageData, 0, messageDataLength);
-        else
+        try
         {
-            // Write Until Data To Send Ends
-            int bytesSent = 0;
-            int bytesLeft = messageDataLength;
-            while (bytesLeft > 0)
+            // If Message Data Shorter Than Buffer Size Write Data Directly
+            if (messageDataLength < BufferSize) networkStream.Write(messageData, 0, messageDataLength);
+            else
             {
-                int tempDataLength = Math.Min(bytesLeft, BufferSize);
+                // Write Until Data To Send Ends
+                int bytesSent = 0;
+                int bytesLeft = messageDataLength;
+                while (bytesLeft > 0)
+                {
+                    int tempDataLength = Math.Min(bytesLeft, BufferSize);
 
-                networkStream.Write(messageData, bytesSent, tempDataLength);
+                    networkStream.Write(messageData, bytesSent, tempDataLength);
 
-                bytesLeft -= tempDataLength;
-                bytesSent += tempDataLength;
+                    bytesLeft -= tempDataLength;
+                    bytesSent += tempDataLength;
+                }
             }
         }
+        catch (IOException) { }
+        catch (ObjectDisposedException) { }
     }
 
     #endregion

@@ -46,7 +46,7 @@ public class TcpClient<TTcpMessage> : TcpHost<TTcpMessage> where TTcpMessage : c
 
 
     public event EventHandler? Connected;
-    public event EventHandler? Disconnected;
+    public event EventHandler<DisconnectedEventArgs>? Disconnected;
 
     private readonly object latencyUpdatedEventLock = new();
 
@@ -77,7 +77,7 @@ public class TcpClient<TTcpMessage> : TcpHost<TTcpMessage> where TTcpMessage : c
     protected virtual void OnConnected(EventArgs e) =>
         Connected?.Invoke(this, e);
 
-    protected virtual void OnDisconnected(EventArgs e) =>
+    protected virtual void OnDisconnected(DisconnectedEventArgs e) =>
         Disconnected?.Invoke(this, e);
 
     protected virtual void OnLatencyUpdated(LatencyUpdatedEventArgs e) =>
@@ -170,7 +170,11 @@ public class TcpClient<TTcpMessage> : TcpHost<TTcpMessage> where TTcpMessage : c
 
     #region Stop
 
-    public void Stop() => serverConnection?.Disconnect();
+    public void Stop()
+    {
+        serverConnection?.Disconnect();
+        ResetSocket();
+    }
 
     #endregion
 
@@ -181,13 +185,10 @@ public class TcpClient<TTcpMessage> : TcpHost<TTcpMessage> where TTcpMessage : c
         // Reset Socket
         ResetSocket();
 
-        // Return If Stopped
-        if (connection.IsDisconnectedIntentionally) return;
-
         // Invoke Disconnected Event
-        OnDisconnected(EventArgs.Empty);
+        OnDisconnected(new DisconnectedEventArgs(connection.IsDisconnectedIntentionally));
 
-        if (AutoReconnect) BeginTryUntilConnect();
+        if (!connection.IsDisconnectedIntentionally && AutoReconnect) BeginTryUntilConnect();
     }
 
     #endregion

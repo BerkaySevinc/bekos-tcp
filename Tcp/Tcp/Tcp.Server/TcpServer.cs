@@ -26,6 +26,7 @@ public class TcpServer<TTcpMessage> : TcpHost<TTcpMessage> where TTcpMessage : c
 
     public int MaxClientCount { get; }
     public List<Connection> Clients { get; } = new();
+    private readonly Lock _clientsLock = new();
 
 
     public TcpServer(IPAddress localAddress, int port, int maxClientCount) : base(port)
@@ -76,8 +77,9 @@ public class TcpServer<TTcpMessage> : TcpHost<TTcpMessage> where TTcpMessage : c
         try
         {
             // Keep Accepting Client Connections If Client Count Smaller Than MaxClientCount
-            while (Clients.Count <= MaxClientCount)
+            while (true)
             {
+                lock (_clientsLock) { if (Clients.Count > MaxClientCount) break; }
                 AcceptClient();
             }
         }
@@ -96,7 +98,7 @@ public class TcpServer<TTcpMessage> : TcpHost<TTcpMessage> where TTcpMessage : c
         var clientConnection = new Connection(socket);
 
         // Add To Client List
-        Clients.Add(clientConnection);
+        lock (_clientsLock) { Clients.Add(clientConnection); }
 
         // Invoke ClientConnected Event
         var args = new ClientConnectedEventArgs(clientConnection);
@@ -116,8 +118,11 @@ public class TcpServer<TTcpMessage> : TcpHost<TTcpMessage> where TTcpMessage : c
         tcpListener.Stop();
 
         // Disconnect Clients
-        foreach (var client in Clients)
-            client.Disconnect();
+        lock (_clientsLock)
+        {
+            foreach (var client in Clients)
+                client.Disconnect();
+        }
     }
 
     #endregion
@@ -127,13 +132,10 @@ public class TcpServer<TTcpMessage> : TcpHost<TTcpMessage> where TTcpMessage : c
     private void DisconnectionCallback(Connection connection)
     {
         // Remove From Client List
-        Clients.Remove(connection);
-
-        // Return If Stopped
-        if (connection.IsDisconnectedIntentionally) return;
+        lock (_clientsLock) { Clients.Remove(connection); }
 
         // Invoke Disconnected Event
-        var args = new ClientDisconnectedEventArgs(connection);
+        var args = new ClientDisconnectedEventArgs(connection, connection.IsDisconnectedIntentionally);
         OnClientDisconnected(args);
     }
 
@@ -146,8 +148,11 @@ public class TcpServer<TTcpMessage> : TcpHost<TTcpMessage> where TTcpMessage : c
 
     public void SendMessageToAll(TTcpMessage message)
     {
-        foreach (var client in Clients)
-            SendMessageToHost(client, message);
+        lock (_clientsLock)
+        {
+            foreach (var client in Clients)
+                SendMessageToHost(client, message);
+        }
     }
 
     #endregion
