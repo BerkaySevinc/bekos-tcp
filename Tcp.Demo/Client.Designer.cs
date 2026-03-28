@@ -94,7 +94,7 @@
 
         private Label lblReceived;
         private Label lblSent;
-        private ListView listView2;
+        private ListView lvSent;
         private ListView lvReceived;
     }
 }
