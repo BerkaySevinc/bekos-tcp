@@ -23,7 +23,7 @@ Core networking logic is separated into a reusable library, accompanied by a Win
 
 ## Dependencies
 
-- **[Encryption](https://github.com/BerkaySevinc/encryption)** — provides the AES encryption layer used for optional message content encryption; included as a Git submodule under `libs/encryption`.
+- **[bekos-encryption](https://github.com/BerkaySevinc/bekos-encryption)** — provides the AES encryption layer used for optional message content encryption; included as a Git submodule under `libs/bekos-encryption`.
 
 ## Usage
 
