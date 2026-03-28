@@ -1,7 +1,7 @@
 # Bekos.Tcp
 
 **Bekos.Tcp** is a TCP networking library for .NET that provides a simple, event-driven communication layer between server and client applications.
-Built around a generic message system, it allows any serializable type to serve as the message contract. 
+
 Core networking logic is separated into a reusable library, accompanied by a Windows Forms demo application.
 
 ## Features
@@ -30,16 +30,20 @@ Core networking logic is separated into a reusable library, accompanied by a Win
 **Server:**
 ```csharp
 var server = new TcpServer(port: 5000);
+
 server.ClientConnected += (s, e) => Console.WriteLine($"Client connected: {e.Client.Address}");
 server.MessageReceived += (s, e) => Console.WriteLine(e.Message.Text);
+
 server.Start();
 ```
 
 **Client:**
 ```csharp
 var client = new TcpClient(port: 5000);
+
 client.Connected += (s, e) => Console.WriteLine("Connected to server.");
 client.MessageReceived += (s, e) => Console.WriteLine(e.Message.Text);
+
 client.BeginTryUntilConnect();
 
 client.SendMessage(new TcpMessage("Hello, server!"));
@@ -50,6 +54,7 @@ client.SendMessage(new TcpMessage("Hello, server!"));
 public class MyMessage : ITcpMessage<MyMessage>
 {
     public string? Content { get; set; }
+
     public byte[] Serialize() => JsonSerializer.SerializeToUtf8Bytes(this);
     public static MyMessage? Deserialize(byte[] data) => JsonSerializer.Deserialize<MyMessage>(data);
 }
