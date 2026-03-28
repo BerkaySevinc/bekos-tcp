@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 // serialize ve derserializeı en verimli haline getir, ama bu sefer bundan derive edilen classların da serialize ve deserializeı baştan yazması gerekir, bunun için bir attribute varmı? veya sealed iş görürmü ne işe yarar
 
 
-namespace BekoS.Tcp;
+namespace Bekos.Tcp;
 
 public class TcpMessage : ITcpMessage<TcpMessage>
 {

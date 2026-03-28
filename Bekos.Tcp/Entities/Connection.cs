@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 // Dispose private olmalı .Disconnect() çağırıldığında IsLost true olmalı ve sonra Dispose Çağırılmalı
 // CheckIsConnected public mi olmalı
 
-namespace BekoS.Tcp;
+namespace Bekos.Tcp;
 
 public class Connection
 {

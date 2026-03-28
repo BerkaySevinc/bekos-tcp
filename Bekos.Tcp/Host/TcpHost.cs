@@ -49,7 +49,7 @@ using System.Threading.Tasks;
 //buffersize araştır
 
 
-namespace BekoS.Tcp;
+namespace Bekos.Tcp;
 
 public abstract class TcpHost<TTcpMessage> where TTcpMessage : class, ITcpMessage<TTcpMessage>, new()
 {

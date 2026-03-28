@@ -1,7 +1,7 @@
 using System.Security.Cryptography;
 
 
-namespace BekoS.Tcp;
+namespace Bekos.Tcp;
 
 
 public class TcpEncryptionOptions

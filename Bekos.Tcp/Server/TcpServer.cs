@@ -18,7 +18,7 @@ using System.Runtime.InteropServices;
 // Make Clients Prop Public
 
 
-namespace BekoS.Tcp.Server;
+namespace Bekos.Tcp;
 
 public class TcpServer<TTcpMessage> : TcpHost<TTcpMessage> where TTcpMessage : class, ITcpMessage<TTcpMessage>, new()
 {

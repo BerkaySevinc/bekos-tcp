@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace BekoS.Tcp.Client;
+namespace Bekos.Tcp;
 
 
 public class TcpClient : TcpClient<TcpMessage>

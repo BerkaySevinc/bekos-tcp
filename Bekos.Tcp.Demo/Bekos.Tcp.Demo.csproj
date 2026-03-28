@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Tcp\Tcp.csproj" />
+    <ProjectReference Include="..\Bekos.Tcp\Bekos.Tcp.csproj" />
   </ItemGroup>
 
 </Project>

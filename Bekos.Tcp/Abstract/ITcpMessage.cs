@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 // jsonserializer ile default serialize ve deserialize methodları tanımlamalımıyım? interfacelerde bodyli method tanımlamak mantıklımı
 
 
-namespace BekoS.Tcp;
+namespace Bekos.Tcp;
 
 
 

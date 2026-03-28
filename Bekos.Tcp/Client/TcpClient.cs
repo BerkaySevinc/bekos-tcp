@@ -23,7 +23,7 @@ using System.Threading.Tasks;
 // zaten connected ise TryConnect ve BeginTryUntilConnect gibi methodların çalışmaması lazım
 
 
-namespace BekoS.Tcp.Client;
+namespace Bekos.Tcp;
 
 
 public class TcpClient<TTcpMessage> : TcpHost<TTcpMessage> where TTcpMessage : class, ITcpMessage<TTcpMessage>, new()

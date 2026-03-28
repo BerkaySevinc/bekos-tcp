@@ -1,4 +1,4 @@
-namespace BekoS.Tcp.Client;
+namespace Bekos.Tcp;
 
 public class DisconnectedEventArgs : EventArgs
 {

@@ -1,5 +1,4 @@
-using BekoS.Tcp;
-using BekoS.Tcp.Client;
+using Bekos.Tcp;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,26 +15,50 @@ namespace Tcp.Demo
     {
         public Client()
         {
+            BackColor = Theme.Background;
+            DoubleBuffered = true;
             CheckForIllegalCrossThreadCalls = false;
 
             InitializeComponent();
             ApplyTheme();
         }
 
-        protected override void OnShown(EventArgs e)
+        protected override CreateParams CreateParams
         {
-            base.OnShown(e);
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0x02000000; // WS_EX_COMPOSITED
+                return cp;
+            }
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            if (m.Msg == 0x0014) // WM_ERASEBKGND
+            {
+                using var g = Graphics.FromHdc(m.WParam);
+                g.Clear(BackColor);
+                m.Result = (IntPtr)1;
+                return;
+            }
+            base.WndProc(ref m);
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
             ArrangeControls();
+        }
+
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            base.OnSizeChanged(e);
+            if (IsHandleCreated) ArrangeControls();
         }
 
         private void ApplyTheme()
         {
-            BackColor = Theme.Background;
-
-            Theme.StyleLabel(lblPing);
-            Theme.StyleLabel(lblReceived);
-            Theme.StyleLabel(lblSent);
-
             Theme.StyleListView(lvConnections);
             Theme.StyleListView(lvReceived);
             Theme.StyleListView(lvSent);

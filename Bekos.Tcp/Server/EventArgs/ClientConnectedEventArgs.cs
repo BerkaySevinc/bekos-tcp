@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 
 
-namespace BekoS.Tcp.Server;
+namespace Bekos.Tcp;
 
 
 public class ClientConnectedEventArgs : EventArgs

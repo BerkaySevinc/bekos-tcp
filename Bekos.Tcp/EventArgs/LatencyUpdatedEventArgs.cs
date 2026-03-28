@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 
 
-namespace BekoS.Tcp;
+namespace Bekos.Tcp;
 
 
 public class LatencyUpdatedEventArgs : EventArgs

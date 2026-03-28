@@ -1,5 +1,5 @@
 <Solution>
   <Project Path="libs/encryption/Encryption/Encryption.csproj" />
-  <Project Path="Tcp.Demo/Tcp.Demo.csproj" />
-  <Project Path="Tcp/Tcp.csproj" />
+  <Project Path="Bekos.Tcp.Demo/Bekos.Tcp.Demo.csproj" />
+  <Project Path="Bekos.Tcp/Bekos.Tcp.csproj" />
 </Solution>
