@@ -39,7 +39,7 @@ server.Start();
 
 **Client:**
 ```csharp
-var client = new TcpClient(port: 5000);
+var client = new TcpClient(serverAddress: "127.0.0.1", port: 5000);
 
 client.Connected += (s, e) => Console.WriteLine("Connected to server.");
 client.MessageReceived += (s, e) => Console.WriteLine(e.Message.Text);
